@@ -304,10 +304,18 @@
  		</plugin>
         </plugins>
     </build>
-    <repositories>
-    <repository>
-      <id>${NEXUS_GRP_REPO}</id>
-      <url>http://${NEXUSIP}:${NEXUSPORT}/repository/${NEXUS_GRP_REPO}/</url>
-    </repository>
-  </repositories>
+    <profiles>
+      <profile>
+        <id>mjeed-mjti-artifact</id>
+        <activation>
+          <activeByDefault>true</activeByDefault>
+        </activation>
+        <repositories>
+          <repository>
+            <id>mjeed-mjti-artifact</id>
+            <url>https://mjeed-138913568231.d.codeartifact.us-east-1.amazonaws.com/maven/mjti-artifact/</url>
+          </repository>
+        </repositories>
+      </profile>
+    </profiles>
 </project>
