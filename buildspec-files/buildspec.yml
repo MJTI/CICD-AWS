@@ -29,7 +29,7 @@ phases:
     commands:
       - mvn test
       - mvn checkstyle:checkstyle
-      - mvn -X sonar:sonar -Dsonar.login=$login -Dsonar.host.url=$host -Dsonar.projectKey=$projectKey -Dsonar.organization=$organization -Dsonar.java.binaries=target/test-classes/com/ -Dsonar.junit.reportsPath=target/surefire-reports/ -Dsonar.jacoco.reportsPath=target/jacoco.exec -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
+      - mvn -X sonar:sonar -Dsonar.token=$login -Dsonar.host.url=$host -Dsonar.projectKey=$projectKey -Dsonar.organization=$organization -Dsonar.java.sources=src/main/java -Dsonar.projectVersion=1.0 -Dsonar.junit.reportsPath=target/surefire-reports/ -Dsonar.jacoco.reportsPath=target/jacoco.exec -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
       - sleep 5
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$projectKey > result.json
       - cat result.json
