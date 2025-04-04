@@ -17,6 +17,5 @@ phases:
       - tar xzvf apache-maven-3.9.9-bin.tar.gz
       - ln -s apache-maven-3.9.9-bin maven
       - mvn -v
-      - ls -lha apache-maven-3.9.9-bin
       - whoami
       - ls -lha
