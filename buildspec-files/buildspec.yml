@@ -19,3 +19,4 @@ phases:
       - mvn -v
       - whoami
       - ls -lha
+      - ls -lha maven
