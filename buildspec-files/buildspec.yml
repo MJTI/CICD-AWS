@@ -21,7 +21,6 @@ phases:
       - apt-get install jq unzip -y
       - wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
       - tar xzvf apache-maven-3.9.9-bin.tar.gz
-      - ln -s apache-maven-3.9.9 maven
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
       - unzip sonar-scanner-cli-3.3.0.1492-linux.zip
       - export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
@@ -29,7 +28,7 @@ phases:
   build:
     commands:
       - mvn test
-      - mvn checkstyle-checkstyle
+      - mvn checkstyle:checkstyle
       - mvn sonar:sonar -Dsonar.login=$login -Dsonar.host.url=$host -Dsonar.projectKey=$projectKey -Dsonar.organization=$organization -Dsonar.java.binaries=target/test-classes/com/ -Dsonar.junit.reportsPath=target/surefire-reports/ -Dsonar.jacoco.reportsPath=target/jacoco.exec -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
       - sleep 5
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$projectKey > result.json
