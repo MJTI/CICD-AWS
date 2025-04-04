@@ -15,7 +15,7 @@ phases:
       - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain mjeed --domain-owner 138913568231 --region us-east-1 --query authorizationToken --output text`
       - wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
       - tar xzvf apache-maven-3.9.9-bin.tar.gz
-      - ln -s apache-maven-3.9.9-bin maven
+      - ln -s apache-maven-3.9.9 maven
       - mvn -v
       - whoami
       - ls -lha
