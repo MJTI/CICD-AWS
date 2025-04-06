@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+    commands:
+      - cp ./settings.xml /root/.m2/settings.xml
+      - export version=$(date '+%Y-%m-%d_%H:%M')
+      - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain mjeed --domain-owner 138913568231 --region us-east-1 --query authorizationToken --output text`
+
+  pre_build:
+    commands:
+      - apt-get update
+      - wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
+      - tar xzvf apache-maven-3.9.9-bin.tar.gz
+
+  build:
+    commands:
+      - mvn clean install -DskipTests
+      - mv target/mjti-app-v2.war target/mjti-app-$version.war
+
+artifacts:
+  files:
+    - target/mjti-app-$version.war
+  discard-paths: yes
