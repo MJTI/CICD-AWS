@@ -6,8 +6,6 @@ env:
     host: sonarServer
     projectKey: sonarProjecyKey
     organization: sonarOrganization
-  variables:
-    version: (date '+%Y-%m-%d_%H:%M')
 
 phases:
   install:
@@ -15,6 +13,7 @@ phases:
       java: corretto17
     commands:
       - cp ./settings.xml /root/.m2/settings.xml
+      - export version=$(date '+%Y-%m-%d_%H:%M')
       - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain mjeed --domain-owner 138913568231 --region us-east-1 --query authorizationToken --output text`
 
   pre_build:
