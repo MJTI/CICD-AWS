@@ -18,8 +18,9 @@ phases:
   build:
     commands:
       - mvn clean install -DskipTests
+      - mv target/mjti-app-v2.war target/mjti-app-$version.war
 
 artifacts:
   files:
-    - target/*.war
-  name: mjti-app-$version
+    - target/mjti-app-$version.war
+  discard-paths: yes
