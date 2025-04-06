@@ -18,5 +18,8 @@ phases:
   build:
     commands:
       - mvn clean install -DskipTests
-      - ls target
-      - ls
+
+artifacts:
+  files:
+    - target/mjti-app-v2.war
+  name: mjti-app-$version.war
