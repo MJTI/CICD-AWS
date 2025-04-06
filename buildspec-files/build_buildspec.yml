@@ -25,3 +25,4 @@ artifacts:
     - mjti-app-$version.war
   discard-paths: yes
   base-directory: target
+  name: ROOT.war
