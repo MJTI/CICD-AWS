@@ -7,7 +7,7 @@ env:
     projectKey: sonarProjecyKey
     organization: sonarOrganization
   variables:
-    version: $(date '+%Y-%m-%d_%H:%M')
+    version: (date '+%Y-%m-%d_%H:%M')
 
 phases:
   install:
@@ -27,8 +27,6 @@ phases:
       - unzip sonar-scanner-cli-3.3.0.1492-linux.zip
       - export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
       - echo $version
-      - echo $ENV:version
-      - echo $env.version
 
   build:
     commands:
