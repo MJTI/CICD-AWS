@@ -22,5 +22,6 @@ phases:
 
 artifacts:
   files:
-    - target/mjti-app-$version.war
+    - mjti-app-$version.war
   discard-paths: yes
+  base-directory: target
