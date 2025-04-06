@@ -6,6 +6,8 @@ env:
     host: sonarServer
     projectKey: sonarProjecyKey
     organization: sonarOrganization
+  variables:
+    version: $(date '+%Y-%m-%d_%H:%M')
 
 phases:
   install:
@@ -24,13 +26,15 @@ phases:
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
       - unzip sonar-scanner-cli-3.3.0.1492-linux.zip
       - export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
+      - echo $version
+      - echo $ENV:version
+      - echo $env.version
 
   build:
     commands:
       - mvn test
       - mvn checkstyle:checkstyle
-      - mvn -X sonar:sonar -Dsonar.token=$login -Dsonar.host.url=$host -Dsonar.projectKey=$projectKey -Dsonar.organization=$organization -Dsonar.java.sources=src/main/java -Dsonar.projectVersion=1.0 -Dsonar.junit.reportsPath=target/surefire-reports/ -Dsonar.jacoco.reportsPath=target/jacoco.exec -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
+      - mvn -X sonar:sonar -Dsonar.login=$login -Dsonar.host.url=$host -Dsonar.projectKey=$projectKey -Dsonar.organization=$organization -Dsonar.projectVersion=$version -Dsonar.java.sources=src/main/java -Dsonar.junit.reportsPath=target/surefire-reports/ -Dsonar.jacoco.reportsPath=target/jacoco.exec -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
       - sleep 5
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$projectKey > result.json
-      - cat result.json
-      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then [ $CODEBUILD_BUILD_SUCCEEDING -eq 0 ] ;fi
+      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ]; then echo "Project status is ERROR. Failing the build."; exit 1; fi
