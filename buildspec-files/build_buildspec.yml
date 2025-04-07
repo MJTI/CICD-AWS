@@ -18,11 +18,8 @@ phases:
   build:
     commands:
       - mvn clean install -DskipTests
-      - ls -lha
-      - ls -lha target
-      - ls -lha target/mjti-app-v2
 
 artifacts:
   files:
     - '**/*'
-  discard-paths: yes
+  base-directory: 'target/mjti-app-v2'
