@@ -1,0 +1,37 @@
+version: 0.2
+
+env:
+  parameter-store:
+    sql_user: sql-user
+    sql_pass: sql-pass
+    rmq_host: rmq-host
+    rmq_user: rmq-user
+    rmq_pass: rmq-pass
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+    commands:
+      - cp ./settings.xml /root/.m2/settings.xml
+      - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain mjeed --domain-owner 138913568231 --region us-east-1 --query authorizationToken --output text`
+
+  pre_build:
+    commands:
+      - sed -i "s/jdbc.username.*/jdbc.username=$sql_user/" src/main/resources/application.properties
+      - sed -i "s/jdbc.password.*/jdbc.password=$sql_pass/" src/main/resources/application.properties
+      - sed -i "s/rabbitmq.address.*/rabbitmq.address=$rmq_host/" src/main/resources/application.properties
+      - sed -i "s/rabbitmq.username.*/rabbitmq.username=$rmq_user/" src/main/resources/application.properties
+      - sed -i "s/rabbitmq.password.*/rabbitmq.password=$rmq_pass/" src/main/resources/application.properties
+      - apt-get update
+      - wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
+      - tar xzvf apache-maven-3.9.9-bin.tar.gz
+
+  build:
+    commands:
+      - mvn clean install -DskipTests
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'target/mjti-app-v2'
